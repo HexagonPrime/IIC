@@ -37,4 +37,4 @@ def get_dataset(name, split='train', transform=None,
         return datasets.ImageFolder(root=root,
                                     transform=transform,
                                     target_transform=target_transform) 
-get_dataset(stl10)
+get_dataset("stl10")
