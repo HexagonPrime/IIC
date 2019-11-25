@@ -15,7 +15,7 @@ Note there are two settings that can be used to evaluate models (selecting sub-h
 1.1 Fully unsupervised image clustering - table 1, figures 1, 3, 5
 
   STL10 (569)
-  export CUDA_VISIBLE_DEVICES=0 && nohup python -m code.scripts.cluster.cluster_sobel_twohead --model_ind 569 --arch ClusterNet5gTwoHead --mode IID --dataset STL10 --dataset_root /scratch/local/ssd/xuji/STL --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 2000 --batch_sz 700 --num_dataloaders 5 --num_sub_heads 5 --mix_train --crop_orig --rand_crop_sz 64 --input_sz 64 --head_A_first --double_eval --batchnorm_track > out/gnodee2_0_m569.out &
+  export CUDA_VISIBLE_DEVICES=0 && nohup python -m code.scripts.cluster.cluster_sobel_twohead --model_ind 569 --arch ClusterNet5gTwoHead --mode IID --dataset STL10 --dataset_root /IIC/datasets/STL --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 2000 --batch_sz 700 --num_dataloaders 5 --num_sub_heads 5 --mix_train --crop_orig --rand_crop_sz 64 --input_sz 64 --head_A_first --double_eval --batchnorm_track > out/gnodee2_0_m569.out &
 
   or (570):
   export CUDA_VISIBLE_DEVICES=0 && nohup python -m code.scripts.cluster.cluster_sobel_twohead --model_ind 570  --arch ClusterNet5gTwoHead --mode IID --dataset STL10 --dataset_root /scratch/local/ssd/xuji/STL --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 2000 --batch_sz 700 --num_dataloaders 5 --num_sub_heads 5 --mix_train --crop_orig --rand_crop_sz 64 --input_sz 64 --head_B_epochs 2 --double_eval --batchnorm_track > out/gnodee3_0_m570.out &
