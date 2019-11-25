@@ -1,5 +1,6 @@
 import os
-import torchvision.datasets
+import torch
+import torchvision.datasets as datasets
 
 __DATASETS_DEFAULT_PATH = "/users/k1763920/IIC/datasets"
 
