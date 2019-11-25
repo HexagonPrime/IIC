@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/runpy.py", line 162, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/usr/lib64/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/users/k1763920/IIC/code/scripts/cluster/cluster_sobel_twohead.py", line 10, in <module>
+    import matplotlib
+ImportError: No module named matplotlib
