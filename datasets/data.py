@@ -1,4 +1,6 @@
 import os
+import torchvision.datasets
+
 __DATASETS_DEFAULT_PATH = "/users/k1763920/IIC/datasets"
 
 def get_dataset(name, split='train', transform=None,
