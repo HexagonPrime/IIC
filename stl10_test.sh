@@ -2,7 +2,7 @@
 #SBATCH --output=/mnt/lustre/users/%u/%j.out
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
-#SBATCH --mem=50000
+#SBATCH --mem=30000
 conda activate iic
 module load libs/cuda
 
