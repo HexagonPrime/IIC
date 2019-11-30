@@ -3,6 +3,8 @@
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
 #SBATCH --mem=30000
+#SBATCH --constrain=v100
+
 conda activate iic
 module load libs/cuda
 
