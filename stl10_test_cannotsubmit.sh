@@ -2,6 +2,7 @@
 #SBATCH --output=/mnt/lustre/users/%u/%j.out
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
+#SBATCH --mem=23000
 #SBATCH --constrain=v100
 
 conda activate iic
