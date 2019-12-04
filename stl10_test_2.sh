@@ -1,5 +1,6 @@
 #!/bin/bash -l
 #SBATCH --output=/mnt/lustre/users/%u/%j.out
+#SBATCH --ntasks=1
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
 #SBATCH --mem=25000
