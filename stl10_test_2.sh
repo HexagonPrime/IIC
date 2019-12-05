@@ -7,7 +7,7 @@
 #SBATCH --constrain=v100
 #SBATCH -n 1
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node 6
+#SBATCH --ntasks-per-node 1
 
 conda activate iic
 module load libs/cuda
