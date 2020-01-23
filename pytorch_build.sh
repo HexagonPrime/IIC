@@ -6,5 +6,6 @@
 "#SBATCH --constrain=v100"
 
 conda activate myenv
+export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
 python setup.py install
 
