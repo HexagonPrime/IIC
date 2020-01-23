@@ -1,0 +1,2 @@
+sbatch -p nms_teach_gpu stl10_test_1.sh
+cat /mnt/lustre/users/k1763920/39263.out
