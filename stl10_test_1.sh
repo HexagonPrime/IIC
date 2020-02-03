@@ -3,7 +3,7 @@
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
 #SBATCH --mem=30000
-"#SBATCH --constrain=v100"
+#SBATCH --constrain=v100
 
 conda activate myenv
 module load libs/cuda

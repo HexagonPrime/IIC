@@ -32,28 +32,28 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
   else:
     assert (False)
 
-  print("Making datasets with %s and %s" % (dataset_class, target_transform))
+  print("Making datasets with " + dataset_class)
   sys.stdout.flush()
 
   dataloaders_head_A = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
                         partitions=config.train_partitions_head_A,
-                        target_transform=target_transform)
+                       )
 
   dataloaders_head_B = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
                         partitions=config.train_partitions_head_B,
-                        target_transform=target_transform)
+                       )
 
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_assignment_partitions,
-                           target_transform=target_transform)
+                           partitions=config.mapping_assignment_partitions
+                           )
 
   mapping_test_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_test_partitions,
-                           target_transform=target_transform)
+                           partitions=config.mapping_test_partitions
+                          )
 
   return dataloaders_head_A, dataloaders_head_B, \
          mapping_assignment_dataloader, mapping_test_dataloader
@@ -63,7 +63,6 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 
 def _create_dataloaders(config, dataset_class, tf1, tf2,
                         partitions,
-                        target_transform=None,
                         shuffle=False):
   curr_frame = config.base_frame
   interval = config.interval
@@ -73,7 +72,6 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
     train_imgs_curr = dataset_class(root=config.dataset_root,
                                     transform=tf1,
                                     train=train_partition,
-                                    target_transform=target_transform,
                                     frame=config.base_frame)	#TODO YT_BB class constructor
 
     if hasattr(config, "mix_train"):
@@ -104,7 +102,6 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
       train_imgs_tf_curr = dataset_class(root=config.dataset_root,
                                          transform=tf2,
                                          train=train_partition,
-                                         target_transform=target_transform,
 	                                 frame=curr_frame)	#TODO
 
       if hasattr(config, "mix_train"):
@@ -135,7 +132,6 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
 
 
 def _create_mapping_loader(config, dataset_class, tf3, partitions,
-                           target_transform=None,
                            truncate=False, truncate_pc=None,
                            tencrop=False,
                            shuffle=False):
@@ -149,8 +145,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
   for partition in partitions:
     imgs_curr = dataset_class(root=config.dataset_root,
                               transform=tf3,
-                              train=partition,
-                              target_transform=target_transform)
+                              train=partition)
 
     if truncate:
       print("shrinking dataset from %d" % len(imgs_curr))

@@ -1,43 +1,50 @@
 import os
 import torch
-import torchvision.datasets as datasets
 
-__DATASETS_DEFAULT_PATH = "/users/k1763920/IIC/datasets"
+class YT_BB(Dataset):
+    """
+    Arguments:
+        root: CSV files path
+        transform: desired transformation
+        frame: which frame to take
+        crop: whether crop by the bounding box
+    """
+    
+    def __init__(self, root, transform, train, frame, crop):
+        self.csv_path = root + '/yt_bb.csv'
+        self.transform = transform
+        self.frame = frame
+        self.crop = crop
 
-def get_dataset(name, split='train', transform=None,
-                target_transform=None, download=True, datasets_path=__DATASETS_DEFAULT_PATH):
-    train = (split == 'train')
-    root = os.path.join(datasets_path, name)
-    if name == 'cifar10':
-        return datasets.CIFAR10(root=root,
-                                train=train,
-                                transform=transform,
-                                target_transform=target_transform,
-                                download=download)
-    elif name == 'cifar100':
-        return datasets.CIFAR100(root=root,
-                                 train=train,
-                                 transform=transform,
-                                 target_transform=target_transform,
-                                 download=download)
-    elif name == 'mnist':
-        return datasets.MNIST(root=root,
-                              train=train,
-                              transform=transform,
-                              target_transform=target_transform,
-                              download=download)
-    elif name == 'stl10':
-        return datasets.STL10(root=root,
-                              split=split,
-                              transform=transform,
-                              target_transform=target_transform,
-                              download=download)
-    elif name == 'imagenet':
-        if train:
-            root = os.path.join(root, 'train')
-        else:
-            root = os.path.join(root, 'val')
-        return datasets.ImageFolder(root=root,
-                                    transform=transform,
-                                    target_transform=target_transform) 
-get_dataset("stl10")
+        tmp_df = pd.DataFrame.from_csv(csv_path, header=None, index_col=False)
+        col_names = ['segment_id', 'class_id', 'path', 'timestamp',     'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
+        tmp_df.columns = col_names
+        
+        # Get list of unique video segment files
+        self.vids = tmp_df['segment_id'].unique()
+        self.dataset = tmp_df.groupby('segment_id')
+
+    def __getitem__(self, index):
+        this_segment_id = self.vids[index]
+        this_group = self.dataset.get_group(this_segment_id)
+
+	# Select the specific frame
+	this_frame = self.frame
+
+	# Choose the last frame if the required frame does not exist
+	if this_frame > len(this_group)-1:
+	    this_frame = len(this_group)-1
+        
+	this_row = this_group.iloc[[this_frame]]
+
+	# Get output image
+	img = Image.open(this_row['path'])
+	img = img.convert('RGB')
+	if self.transform is not None:
+	    img = self.transform(img)
+
+	label = this_row['class_id']
+	return img, label
+
+    def __len__(self):
+	return len(self.vids)
