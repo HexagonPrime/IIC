@@ -34,7 +34,7 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
   else:
     assert (False)
 
-  print("Making datasets with " + dataset_class)
+  print("Making datasets with YT_BB")
   sys.stdout.flush()
 
   dataloaders_head_A = \
