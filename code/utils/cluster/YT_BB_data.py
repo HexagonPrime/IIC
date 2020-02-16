@@ -11,6 +11,8 @@ from code.utils.cluster.transforms import sobel_make_transforms, \
 from code.utils.semisup.dataset import TenCropAndFinish
 from .general import reorder_train_deterministic
 
+from datasets import YT_BB
+
 
 # Used by sobel and greyscale clustering twohead scripts -----------------------
 
@@ -25,7 +27,7 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
     config.mapping_assignment_partitions = [True, False]
     config.mapping_test_partitions = [True, False]
 
-    dataset_class = torchvision.datasets.YT_BB  #TODO YT_BB custom class
+    dataset_class = YT_BB  #TODO YT_BB custom class
 
     # datasets produce either 2 or 5 channel images based on config.include_rgb
     tf1, tf2, tf3 = sobel_make_transforms(config)
@@ -37,22 +39,22 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 
   dataloaders_head_A = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        partitions=config.train_partitions_head_A,
+                        #partitions=config.train_partitions_head_A,
                        )
 
   dataloaders_head_B = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        partitions=config.train_partitions_head_B,
+                        #partitions=config.train_partitions_head_B,
                        )
 
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_assignment_partitions
+                           #partitions=config.mapping_assignment_partitions
                            )
 
   mapping_test_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_test_partitions
+                           #partitions=config.mapping_test_partitions
                           )
 
   return dataloaders_head_A, dataloaders_head_B, \
@@ -62,22 +64,21 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 # Data creation helpers --------------------------------------------------------
 
 def _create_dataloaders(config, dataset_class, tf1, tf2,
-                        partitions,
                         shuffle=False):
-  curr_frame = config.base_frame
-  interval = config.interval
+  curr_frame = int(config.base_frame)
+  interval = int(config.interval)
   train_imgs_list = []
-  for train_partition in partitions:
+  #for train_partition in partitions:
 
-    train_imgs_curr = dataset_class(root=config.dataset_root,
-                                    transform=tf1,
-                                    train=train_partition,
-                                    frame=config.base_frame)	#TODO YT_BB class constructor
+  train_imgs_curr = dataset_class(root=config.dataset_root,
+                                  transform=tf1,
+                                  frame=config.base_frame,
+                                  crop=False)	#TODO YT_BB class constructor
 
-    if hasattr(config, "mix_train"):
-      if config.mix_train and (train_partition == "train+unlabeled"):
-        train_imgs_curr = reorder_train_deterministic(train_imgs_curr)
-    train_imgs_list.append(train_imgs_curr)
+  # if hasattr(config, "mix_train"):
+  #   if config.mix_train and (train_partition == "train+unlabeled"):
+  #     train_imgs_curr = reorder_train_deterministic(train_imgs_curr)
+  train_imgs_list.append(train_imgs_curr)
 
   train_imgs = ConcatDataset(train_imgs_list)
   train_dataloader = torch.utils.data.DataLoader(train_imgs,
@@ -92,22 +93,22 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   dataloaders = [train_dataloader]
 
   for d_i in xrange(config.num_dataloaders):
-    curr_frame = this_frame + interval
+    curr_frame = curr_frame + interval
     print("Creating auxiliary dataloader ind %d out of %d time %s" %
           (d_i, config.num_dataloaders, datetime.now()))
     sys.stdout.flush()
 
     train_tf_imgs_list = []
-    for train_partition in partitions:
-      train_imgs_tf_curr = dataset_class(root=config.dataset_root,
-                                         transform=tf2,
-                                         train=train_partition,
-	                                 frame=curr_frame)	#TODO
+    #for train_partition in partitions:
+    train_imgs_tf_curr = dataset_class(root=config.dataset_root,
+                                       transform=tf2,
+	                                     frame=curr_frame,
+                                       crop=False)	#TODO
 
-      if hasattr(config, "mix_train"):
-        if config.mix_train and (train_partition == "train+unlabeled"):
-          train_imgs_tf_curr = reorder_train_deterministic(train_imgs_tf_curr)
-      train_tf_imgs_list.append(train_imgs_tf_curr)
+      # if hasattr(config, "mix_train"):
+      #   if config.mix_train and (train_partition == "train+unlabeled"):
+      #     train_imgs_tf_curr = reorder_train_deterministic(train_imgs_tf_curr)
+    train_tf_imgs_list.append(train_imgs_tf_curr)
 
     train_imgs_tf = ConcatDataset(train_tf_imgs_list)
     train_tf_dataloader = \
@@ -131,7 +132,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   return dataloaders
 
 
-def _create_mapping_loader(config, dataset_class, tf3, partitions,
+def _create_mapping_loader(config, dataset_class, tf3, 
                            truncate=False, truncate_pc=None,
                            tencrop=False,
                            shuffle=False):
@@ -142,21 +143,21 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
     assert (tf3 is None)
 
   imgs_list = []
-  for partition in partitions:
-    imgs_curr = dataset_class(root=config.dataset_root,
-                              transform=tf3,
-                              train=partition)
+  #for partition in partitions:
+  imgs_curr = dataset_class(root=config.dataset_root,
+                            transform=tf3,
+                            train=partition)
 
-    if truncate:
-      print("shrinking dataset from %d" % len(imgs_curr))
-      imgs_curr = TruncatedDataset(imgs_curr, pc=truncate_pc)
-      print("... to %d" % len(imgs_curr))
+  if truncate:
+    print("shrinking dataset from %d" % len(imgs_curr))
+    imgs_curr = TruncatedDataset(imgs_curr, pc=truncate_pc)
+    print("... to %d" % len(imgs_curr))
 
-    if tencrop:
-      imgs_curr = TenCropAndFinish(imgs_curr, input_sz=config.input_sz,
-                                   include_rgb=config.include_rgb)
+  if tencrop:
+    imgs_curr = TenCropAndFinish(imgs_curr, input_sz=config.input_sz,
+                                 include_rgb=config.include_rgb)
 
-    imgs_list.append(imgs_curr)
+  imgs_list.append(imgs_curr)
 
   imgs = ConcatDataset(imgs_list)
   dataloader = torch.utils.data.DataLoader(imgs,
