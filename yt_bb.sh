@@ -1,9 +1,9 @@
 #!/bin/bash -l
 #SBATCH --output=/mnt/lustre/users/%u/%j.out
 #SBATCH --mem=30000
-"""#SBATCH --job-name=gpu
+#SBATCH --job-name=gpu
 #SBATCH --gres=gpu
-#SBATCH --constrain=v100"""
+#SBATCH --constrain=v100
 
 conda activate py2
 #module load libs/cuda
