@@ -18,7 +18,8 @@ import code.archs as archs
 from code.utils.cluster.general import config_to_str, get_opt, update_lr, nice
 from code.utils.cluster.transforms import sobel_process
 from code.utils.cluster.cluster_eval import cluster_eval, get_subhead_using_loss
-from code.utils.cluster.data import cluster_twohead_create_dataloaders
+#from code.utils.cluster.data import cluster_twohead_create_dataloaders
+from code.utils.cluster.YT_BB_data import cluster_twohead_create_YT_BB_dataloaders
 from code.utils.cluster.IID_losses import IID_loss
 
 """
@@ -172,7 +173,7 @@ else:
 # Model ------------------------------------------------------------------------
 
 dataloaders_head_A, dataloaders_head_B, mapping_assignment_dataloader, \
-mapping_test_dataloader = cluster_twohead_create_dataloaders(config)
+mapping_test_dataloader = cluster_twohead_create_YT_BB_dataloaders(config)
 
 net = archs.__dict__[config.arch](config)
 if config.restart:
