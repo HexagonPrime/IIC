@@ -11,7 +11,7 @@ from code.utils.cluster.transforms import sobel_make_transforms, \
 from code.utils.semisup.dataset import TenCropAndFinish
 from .general import reorder_train_deterministic
 
-from datasets import YT_BB
+from code.datasets.clustering.YT_BB import YT_BB
 
 
 # Used by sobel and greyscale clustering twohead scripts -----------------------
