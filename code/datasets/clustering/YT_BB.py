@@ -2,6 +2,7 @@ import os
 import torch
 import pandas as pd
 from torch.utils.data.dataset import Dataset 
+from PIL import Image
 
 class YT_BB(Dataset):
     """
