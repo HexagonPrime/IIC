@@ -39,6 +39,7 @@ class YT_BB(Dataset):
             this_frame = len(this_group)-1
         
         this_row = this_group.iloc[[this_frame]]
+	print this_row
 	print this_row['path']
 
         # Get output image
@@ -48,6 +49,7 @@ class YT_BB(Dataset):
             img = self.transform(img)
 
         label = this_row['class_id']
+	img = 
         return img, label
 
     def __len__(self):
