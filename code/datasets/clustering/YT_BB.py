@@ -49,7 +49,6 @@ class YT_BB(Dataset):
             img = self.transform(img)
 
         label = this_row['class_id']
-	img = 
         return img, label
 
     def __len__(self):
