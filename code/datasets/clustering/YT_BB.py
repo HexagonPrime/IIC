@@ -40,9 +40,6 @@ class YT_BB(Dataset):
             this_frame = len(this_group)-1
         
         this_row = this_group.iloc[[this_frame]]
-	print this_row
-	print this_row['path']
-	print this_row['path'].iat[0]
 
         # Get output image
         img = Image.open(self.root + this_row['path'].iat[0])
