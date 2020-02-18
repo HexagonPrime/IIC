@@ -1,6 +1,7 @@
 import os
 import torch
 import pandas as pd
+from torchvision import transforms
 from torch.utils.data.dataset import Dataset 
 from PIL import Image
 
@@ -15,6 +16,7 @@ class YT_BB(Dataset):
     
     def __init__(self, root, transform, frame, crop):
 	self.root = root
+	self.to_tensor = transforms.ToTensor()
         self.csv_path = root + '/yt_bb.csv'
         self.transform = transform
         self.frame = frame
@@ -43,12 +45,11 @@ class YT_BB(Dataset):
 
         # Get output image
         img = Image.open(self.root + this_row['path'].iat[0])
-        img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
-
+	img_as_tensor = self.to_tensor(img)
         label = this_row['class_id'].iat[0]
-        return img, label
+        return img_as_tensor, label
 
     def __len__(self):
         return len(self.vids)
