@@ -45,7 +45,7 @@ class YT_BB(Dataset):
 	print this_row['path'].iat[0]
 
         # Get output image
-        img = Image.open(roo + this_row['path'].iat[0])
+        img = Image.open(self.root + this_row['path'].iat[0])
         img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
