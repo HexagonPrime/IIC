@@ -45,6 +45,7 @@ class YT_BB(Dataset):
 
         # Get output image
         img = Image.open(self.root + this_row['path'].iat[0])
+	img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
         label = this_row['class_id'].iat[0]
