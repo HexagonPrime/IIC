@@ -14,6 +14,7 @@ class YT_BB(Dataset):
     """
     
     def __init__(self, root, transform, frame, crop):
+	self.root = root
         self.csv_path = root + '/yt_bb.csv'
         self.transform = transform
         self.frame = frame
@@ -44,7 +45,7 @@ class YT_BB(Dataset):
 	print this_row['path'].iat[0]
 
         # Get output image
-        img = Image.open(this_row['path'].iat[0])
+        img = Image.open(roo + this_row['path'].iat[0])
         img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
