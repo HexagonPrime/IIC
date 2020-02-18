@@ -40,15 +40,15 @@ class YT_BB(Dataset):
         
         this_row = this_group.iloc[[this_frame]]
 	print this_row
-	print this_row['path']
+	print this_row['path'].iat[0, 0]
 
         # Get output image
-        img = Image.open(this_row['path'])
+        img = Image.open(this_row['path'].iat[0, 0])
         img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
 
-        label = this_row['class_id']
+        label = this_row['class_id'].iat[0, 0]
         return img, label
 
     def __len__(self):
