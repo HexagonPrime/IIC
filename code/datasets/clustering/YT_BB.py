@@ -39,6 +39,7 @@ class YT_BB(Dataset):
             this_frame = len(this_group)-1
         
         this_row = this_group.iloc[[this_frame]]
+	print this_row['path']
 
         # Get output image
         img = Image.open(this_row['path'])
