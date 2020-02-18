@@ -47,9 +47,8 @@ class YT_BB(Dataset):
         img = Image.open(self.root + this_row['path'].iat[0])
         if self.transform is not None:
             img = self.transform(img)
-	img_as_tensor = self.to_tensor(img)
         label = this_row['class_id'].iat[0]
-        return img_as_tensor, label
+        return img, label
 
     def __len__(self):
         return len(self.vids)
