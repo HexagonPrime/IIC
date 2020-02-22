@@ -113,6 +113,8 @@ parser.add_argument("--base_frame", type=int, default=0)
 parser.add_argument("--base_interval", type=int, default=1)
 # number of base frame to use
 parser.add_argument("--base_num", type=int, default=1)
+# interval between input pairs
+parser.add_argument("--interval", type=int, default=0)
 
 config = parser.parse_args()
 
