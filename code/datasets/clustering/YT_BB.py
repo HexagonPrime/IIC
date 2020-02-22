@@ -53,12 +53,13 @@ class YT_BB(Dataset):
 	top = int(height * this_row['ymin'].iat[0])
 	right = int(width * this_row['xmax'].iat[0])
 	bottom = int(height * this_row['ymax'].iat[0])
-	print left
-	print top
-	print right
-	print bottom
+# 	print left
+# 	print top
+# 	print right
+# 	print bottom
 	img = img.crop((left, top, right, bottom))
-	img.show()
+	new_width, new_height = img.size
+# 	img.show()
 	
 	img = img.convert('RGB')
         if self.transform is not None:
