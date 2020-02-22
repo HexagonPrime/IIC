@@ -107,8 +107,12 @@ parser.add_argument("--cutout", default=False, action="store_true")
 parser.add_argument("--cutout_p", type=float, default=0.5)
 parser.add_argument("--cutout_max_box", type=float, default=0.5)
 
+# the very base frame
 parser.add_argument("--base_frame", type=int, default=0)
-parser.add_argument("--interval", type=int, default=1)
+# interval between bases
+parser.add_argument("--base_interval", type=int, default=1)
+# number of base frame to use
+parser.add_argument("--base_num", type=int, default=1)
 
 config = parser.parse_args()
 

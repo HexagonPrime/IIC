@@ -95,7 +95,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
     train_tf_imgs_list = []
     # for each base train dataset, create corresponding transformed dataset,
     # then concat together.
-    for i in xrange(base_num):
+    for i in xrange(comfig.base_num):
       train_imgs_tf_curr = dataset_class(root=config.dataset_root,
                                          transform=tf2,
 	                                 frame=curr_frame + config.base_interval * i,
