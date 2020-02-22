@@ -46,13 +46,13 @@ class YT_BB(Dataset):
         # Get output image
         img = Image.open(self.root + this_row['path'].iat[0])
 	
-# 	width, height = img.size
-# 	left = int(width * this_row['xmin'].iat[0])
-# 	top = int(height * this_row['ymax'].iat[0])
-# 	right = int(width * this_row['xmax'].iat[0])
-# 	bottom = int(height * this_row['ymin'].iat[0])
-# 	img = img.crop((left, top, right, bottom))
-# 	img.show()
+	width, height = img.size
+	left = int(width * this_row['xmin'].iat[0])
+	top = int(height * this_row['ymax'].iat[0])
+	right = int(width * this_row['xmax'].iat[0])
+	bottom = int(height * this_row['ymin'].iat[0])
+	img = img.crop((left, top, right, bottom))
+	img.show()
 	
 	img = img.convert('RGB')
         if self.transform is not None:
