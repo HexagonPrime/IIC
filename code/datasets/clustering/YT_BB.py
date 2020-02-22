@@ -59,8 +59,9 @@ class YT_BB(Dataset):
 # 	print bottom
 	img = img.crop((left, top, right, bottom))
 	new_width, new_height = img.size
-	print new_width
-	print new_height
+	img = torchvision.transforms.Resize([32,32])(img)
+# 	print new_width
+# 	print new_height
 # 	img.show()
 	
 	img = img.convert('RGB')
