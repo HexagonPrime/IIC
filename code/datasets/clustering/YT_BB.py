@@ -47,7 +47,8 @@ class YT_BB(Dataset):
         img = Image.open(self.root + this_row['path'].iat[0])
 	
 	width, height = img.size
-	print 'size: ' + img.size
+	print width
+	print height
 	left = int(width * this_row['xmin'].iat[0])
 	top = int(height * this_row['ymax'].iat[0])
 	right = int(width * this_row['xmax'].iat[0])
