@@ -34,16 +34,15 @@ class YT_BB(Dataset):
         this_segment_id = self.vids[index]
         this_group = self.dataset.get_group(this_segment_id)
 
-        # Select the specific frame
+        # Select the specific frame.
         this_frame = self.frame
 
-        # Choose the last frame if the required frame does not exist
-        if this_frame > len(this_group)-1:
-            this_frame = len(this_group)-1
+        # Circular if this frame required exceeds frames the segment has.
+        this_frame = this_frame % len(this_group)
         
         this_row = this_group.iloc[[this_frame]]
 
-        # Get output image
+        # Get output image.
         img = Image.open(self.root + this_row['path'].iat[0])
 	
 	width, height = img.size
