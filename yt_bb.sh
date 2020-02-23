@@ -4,6 +4,7 @@
 #SBATCH --job-name=gpu
 #SBATCH --gres=gpu
 #SBATCH --constrain=v100
+#SBATCH --time=4-0:00
 
 conda activate py2
 #module load libs/cuda
