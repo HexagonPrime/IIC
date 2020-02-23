@@ -33,7 +33,7 @@ class YT_BB(Dataset):
             self.dataset.append(group.iloc[[this_frame]])
 
     def __getitem__(self, index):
-        this_row = dataset[index]
+        this_row = self.dataset[index]
 
         # Get output image.
         img = Image.open(self.root + this_row['path'].iat[0])
