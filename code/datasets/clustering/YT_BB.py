@@ -45,25 +45,26 @@ class YT_BB(Dataset):
         # Get output image.
         img = Image.open(self.root + this_row['path'].iat[0])
 	
-	width, height = img.size
-# 	print width
-# 	print height
-	left = int(width * this_row['xmin'].iat[0])
-	top = int(height * this_row['ymin'].iat[0])
-	right = int(width * this_row['xmax'].iat[0])
-	bottom = int(height * this_row['ymax'].iat[0])
-# 	print left
-# 	print top
-# 	print right
-# 	print bottom
-	img = img.crop((left, top, right, bottom))
-	new_width, new_height = img.size
-	img = transforms.Resize([32,32])(img)
-# 	print new_width
-# 	print new_height
-# 	img.show()
+        if self.crop:
+	    width, height = img.size
+# 	    print width
+# 	    print height
+	    left = int(width * this_row['xmin'].iat[0])
+	    top = int(height * this_row['ymin'].iat[0])
+	    right = int(width * this_row['xmax'].iat[0])
+	    bottom = int(height * this_row['ymax'].iat[0])
+# 	    print left
+# 	    print top
+# 	    print right
+# 	    print bottom
+	    img = img.crop((left, top, right, bottom))
+	    new_width, new_height = img.size
+	    img = transforms.Resize([32,32])(img)
+# 	    print new_width
+# 	    print new_height
+# 	    img.show()
 	
-	img = img.convert('RGB')
+	#img = img.convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
         label = this_row['class_id'].iat[0]

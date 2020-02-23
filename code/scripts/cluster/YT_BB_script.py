@@ -115,6 +115,8 @@ parser.add_argument("--base_interval", type=int, default=1)
 parser.add_argument("--base_num", type=int, default=1)
 # interval between input pairs
 parser.add_argument("--interval", type=int, default=0)
+# whether crop the image by bounding boxes
+paser.add_argument("--crop_by_bb", type=bool, default=False)
 
 config = parser.parse_args()
 

@@ -71,7 +71,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
     train_imgs_curr = dataset_class(root=config.dataset_root,
                                     transform=tf1,
                                     frame=curr_frame + config.base_interval * i,
-                                    crop=True)
+                                    crop=config.crop_by_bb)
     train_imgs_list.append(train_imgs_curr)
 
   train_imgs = ConcatDataset(train_imgs_list)
@@ -99,7 +99,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
       train_imgs_tf_curr = dataset_class(root=config.dataset_root,
                                          transform=tf2,
 	                                 frame=curr_frame + config.base_interval * i,
-                                         crop=True)
+                                         crop=config.crop_by_bb)
 
       train_tf_imgs_list.append(train_imgs_tf_curr)
 
@@ -141,7 +141,7 @@ def _create_mapping_loader(config, dataset_class, tf3,
     imgs_curr = dataset_class(root=config.dataset_root,
                               transform=tf3,
                               frame=config.base_frame + config.base_interval * i,
-                              crop=False)
+                              crop=config.crop_by_bb)
 
     if truncate:
       print("shrinking dataset from %d" % len(imgs_curr))
