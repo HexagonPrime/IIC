@@ -16,10 +16,8 @@ class YT_BB(Dataset):
     
     def __init__(self, root, transform, frame, crop):
 	self.root = root
-	self.to_tensor = transforms.ToTensor()
         self.csv_path = root + '/yt_bb.csv'
         self.transform = transform
-        self.frame = frame
         self.crop = crop
 
         tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
@@ -27,20 +25,15 @@ class YT_BB(Dataset):
         tmp_df.columns = col_names
         
         # Get list of unique video segment files
-        self.vids = tmp_df['segment_id'].unique()
-        self.dataset = tmp_df.groupby('segment_id')
+        groups = tmp_df.groupby('segment_id')
+        self.dataset = []
+        for name, group in groups:
+            # Circular if this frame required exceeds frames the segment has.
+            this_frame = frame % len(group)
+            self.dataset.append(group.iloc[[this_frame]])
 
     def __getitem__(self, index):
-        this_segment_id = self.vids[index]
-        this_group = self.dataset.get_group(this_segment_id)
-
-        # Select the specific frame.
-        this_frame = self.frame
-
-        # Circular if this frame required exceeds frames the segment has.
-        this_frame = this_frame % len(this_group)
-        
-        this_row = this_group.iloc[[this_frame]]
+        this_row = dataset[index]
 
         # Get output image.
         img = Image.open(self.root + this_row['path'].iat[0])
