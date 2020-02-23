@@ -64,4 +64,4 @@ class YT_BB(Dataset):
         return img, label
 
     def __len__(self):
-        return len(self.vids)
+        return len(self.dataset)
