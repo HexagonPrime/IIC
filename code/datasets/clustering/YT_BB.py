@@ -27,10 +27,14 @@ class YT_BB(Dataset):
         # Get list of unique video segment files
         groups = tmp_df.groupby('segment_id')
         self.dataset = []
+        included = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         for name, group in groups:
             # Circular if this frame required exceeds frames the segment has.
             this_frame = frame % len(group)
-            self.dataset.append(group.iloc[[this_frame]])
+            this_row = group.iloc[[this_frame]]
+            if included[this_row['class_id']] < 1000
+                self.dataset.append(this_row)
+                included[this_row['class_id']] = included[this_row['class_id']] + 1
 
     def __getitem__(self, index):
         this_row = self.dataset[index]
