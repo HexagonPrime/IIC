@@ -36,7 +36,7 @@ class YT_BB(Dataset):
             if included[this_class] < 1000:
                 self.dataset.append(this_row)
                 included[this_class] = included[this_class] + 1
-        print 'Dataset size: ' + len(self.dataset)
+        print 'Dataset size: ' + str(len(self.dataset))
 
     def __getitem__(self, index):
         this_row = self.dataset[index]
