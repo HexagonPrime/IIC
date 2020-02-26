@@ -32,7 +32,7 @@ class YT_BB(Dataset):
             # Circular if this frame required exceeds frames the segment has.
             this_frame = frame % len(group)
             this_row = group.iloc[[this_frame]]
-            if included[this_row['class_id']] < 1000
+            if included[this_row['class_id']] < 1000:
                 self.dataset.append(this_row)
                 included[this_row['class_id']] = included[this_row['class_id']] + 1
 
