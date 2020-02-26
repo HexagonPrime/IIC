@@ -51,8 +51,8 @@ class YT_BB(Dataset):
 # 	    print right
 # 	    print bottom
 	    img = img.crop((left, top, right, bottom))
-	    new_width, new_height = img.size
-	    #img = transforms.Resize([32,32])(img)
+	    #new_width, new_height = img.size
+	    img = transforms.Resize([32,32])(img)
 # 	    print new_width
 # 	    print new_height
 # 	    img.show()
