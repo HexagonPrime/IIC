@@ -24,7 +24,7 @@ class YT_BB_5(Dataset):
         # classes: 0:bird, 6:airplane, 9:car, 3:cat, 8:dog
         classes_needed = [0, 3, 6, 8, 9]
         included = [0, 0, 0, 0, 0]
-        mapping = {0:0, 3:1, 6:2, 8:3, 9:4}
+        self.mapping = {0:0, 3:1, 6:2, 8:3, 9:4}
 
         tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
@@ -78,6 +78,7 @@ class YT_BB_5(Dataset):
         if self.transform is not None:
             img = self.transform(img)
         label = this_row['class_id'].iat[0]
+        label = self.mapping.get(label)
         return img, label
 
     def __len__(self):
