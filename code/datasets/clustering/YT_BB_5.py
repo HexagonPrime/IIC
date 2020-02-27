@@ -44,9 +44,9 @@ class YT_BB_5(Dataset):
                 frame = len(group)-1
             this_row = group.iloc[[frame]]
             this_class = this_row['class_id'].iat[0]
-            if included[mapping.get(this_class)] < 1000:
+            if included[self.mapping.get(this_class)] < 1000:
                 self.dataset.append(this_row)
-                included[mapping.get(this_class)] = included[mapping.get(this_class)] + 1
+                included[self.mapping.get(this_class)] = included[self.mapping.get(this_class)] + 1
         print 'Dataset size: ' + str(len(self.dataset))
 
     def __getitem__(self, index):
