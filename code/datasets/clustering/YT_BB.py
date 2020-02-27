@@ -34,7 +34,6 @@ class YT_BB(Dataset):
             # Choose the last frame if the required frame does not exist
             if frame > len(group)-1:
                 frame = len(group)-1
-            print 'Frame: ' + str(frame)
             this_row = group.iloc[[frame]]
             this_class = this_row['class_id'].iat[0]
             if included[this_class] < 1000:
