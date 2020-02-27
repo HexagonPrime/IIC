@@ -30,7 +30,11 @@ class YT_BB(Dataset):
         included = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         for name, group in groups:
             # Circular if this frame required exceeds frames the segment has.
-            this_frame = frame % len(group)
+            # this_frame = frame % len(group)
+            # Choose the last frame if the required frame does not exist
+            if this_frame > len(this_group)-1:
+                this_frame = len(this_group)-1
+            print 'Frame: ' + str(this_frame)
             this_row = group.iloc[[this_frame]]
             this_class = this_row['class_id'].iat[0]
             if included[this_class] < 1000:
