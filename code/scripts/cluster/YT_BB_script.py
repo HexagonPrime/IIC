@@ -117,6 +117,8 @@ parser.add_argument("--base_num", type=int, default=1)
 parser.add_argument("--interval", type=int, default=0)
 # whether crop the image by bounding boxes
 parser.add_argument("--crop_by_bb", type=bool, default=True)
+# whether includes the increment on sample repeats
+parser.add_argument("--include_increment", type=bool, default=False)
 
 config = parser.parse_args()
 

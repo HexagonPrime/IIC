@@ -20,6 +20,7 @@ class YT_BB_5(Dataset):
         self.transform = transform
         self.crop = crop
         print 'Crop: ' + str(self.crop)
+        print 'Frame: ' + str(frame)
 
         # classes: 0:bird, 6:airplane, 9:car, 3:cat, 8:dog
         classes_needed = [0, 3, 6, 8, 9]

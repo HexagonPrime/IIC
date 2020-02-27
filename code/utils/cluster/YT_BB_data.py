@@ -99,7 +99,11 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   dataloaders = [train_dataloader]
 
   for d_i in xrange(config.num_dataloaders):
-    curr_frame = curr_frame + config.interval
+    if config.include_increment:
+      curr_frame = curr_frame + config.interval
+    else:
+      if d_i == 0:
+        curr_frame = curr_frame + config.interval
     print("Creating auxiliary dataloader ind %d out of %d time %s" %
           (d_i, config.num_dataloaders, datetime.now()))
     sys.stdout.flush()

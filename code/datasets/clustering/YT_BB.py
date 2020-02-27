@@ -20,6 +20,7 @@ class YT_BB(Dataset):
         self.transform = transform
         self.crop = crop
         print 'Crop: ' + str(self.crop)
+        print 'Frame: ' + str(frame)
 
         tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
