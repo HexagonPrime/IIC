@@ -5,7 +5,7 @@ from torchvision import transforms
 from torch.utils.data.dataset import Dataset 
 from PIL import Image
 
-class YT_BB(Dataset):
+class YT_BB_5(Dataset):
     """
     Arguments:
         root: CSV files path
@@ -21,14 +21,20 @@ class YT_BB(Dataset):
         self.crop = crop
         print 'Crop: ' + str(self.crop)
 
+        # classes: 0:bird, 6:airplane, 9:car, 3:cat, 8:dog
+        classes_needed = [0, 6, 9, 3, 8]
+        included = [0, 0, 0, 0, 0]
+
         tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
         tmp_df.columns = col_names
+	# Choose only 5 classes
+        tmp_df = tmp_df[tmp_df['class_id'].isin(classes_needed)]
         
         # Get list of unique video segment files
         groups = tmp_df.groupby('segment_id')
         self.dataset = []
-        included = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
         for name, group in groups:
             # Circular if this frame required exceeds frames the segment has.
             # this_frame = frame % len(group)

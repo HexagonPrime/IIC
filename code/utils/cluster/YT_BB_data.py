@@ -12,6 +12,7 @@ from code.utils.semisup.dataset import TenCropAndFinish
 from .general import reorder_train_deterministic
 
 from code.datasets.clustering.YT_BB import YT_BB
+from code.datasets.clustering.YT_BB_5 import YT_BB_5
 
 
 # Used by sobel and greyscale clustering twohead scripts -----------------------
@@ -28,6 +29,17 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
     config.mapping_test_partitions = [True, False]
 
     dataset_class = YT_BB  #TODO YT_BB custom class
+
+    # datasets produce either 2 or 5 channel images based on config.include_rgb
+    tf1, tf2, tf3 = sobel_make_transforms(config)
+  elif config.dataset == "YT_BB_5":
+    config.train_partitions_head_A = [True, False]
+    config.train_partitions_head_B = config.train_partitions_head_A
+
+    config.mapping_assignment_partitions = [True, False]
+    config.mapping_test_partitions = [True, False]
+
+    dataset_class = YT_BB_5  #TODO YT_BB custom class
 
     # datasets produce either 2 or 5 channel images based on config.include_rgb
     tf1, tf2, tf3 = sobel_make_transforms(config)
