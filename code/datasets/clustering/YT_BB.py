@@ -32,10 +32,10 @@ class YT_BB(Dataset):
             # Circular if this frame required exceeds frames the segment has.
             # this_frame = frame % len(group)
             # Choose the last frame if the required frame does not exist
-            if this_frame > len(this_group)-1:
-                this_frame = len(this_group)-1
-            print 'Frame: ' + str(this_frame)
-            this_row = group.iloc[[this_frame]]
+            if frame > len(this_group)-1:
+                frame = len(this_group)-1
+            print 'Frame: ' + str(frame)
+            this_row = group.iloc[[frame]]
             this_class = this_row['class_id'].iat[0]
             if included[this_class] < 1000:
                 self.dataset.append(this_row)
