@@ -22,8 +22,9 @@ class YT_BB_5(Dataset):
         print 'Crop: ' + str(self.crop)
 
         # classes: 0:bird, 6:airplane, 9:car, 3:cat, 8:dog
-        classes_needed = [0, 6, 9, 3, 8]
+        classes_needed = [0, 3, 6, 8, 9]
         included = [0, 0, 0, 0, 0]
+        mapping = {0:0, 3:1, 6:2, 8:3, 9:4}
 
         tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
@@ -43,9 +44,9 @@ class YT_BB_5(Dataset):
                 frame = len(group)-1
             this_row = group.iloc[[frame]]
             this_class = this_row['class_id'].iat[0]
-            if included[this_class] < 1000:
+            if included[mapping.get(this_class)] < 1000:
                 self.dataset.append(this_row)
-                included[this_class] = included[this_class] + 1
+                included[mapping.get(this_class)] = included[mapping.get(this_class)] + 1
         print 'Dataset size: ' + str(len(self.dataset))
 
     def __getitem__(self, index):
