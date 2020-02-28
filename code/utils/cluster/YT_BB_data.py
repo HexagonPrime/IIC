@@ -99,6 +99,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   dataloaders = [train_dataloader]
 
   for d_i in xrange(config.num_dataloaders):
+    print 'Include increment: ' + str(config.include_increment)
     if config.include_increment:
       curr_frame = curr_frame + config.interval
     else:
