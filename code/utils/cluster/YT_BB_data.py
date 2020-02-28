@@ -98,9 +98,9 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
                        torch.utils.data.sampler.SequentialSampler))
   dataloaders = [train_dataloader]
 
-  this_include_increment = 0
   for d_i in xrange(config.num_dataloaders):
     print 'Include increment: ' + str(config.frame_increment)
+    print 'd_i: ' + str(d_i)
     if config.frame_increment:
       curr_frame = curr_frame + config.interval
     else:
