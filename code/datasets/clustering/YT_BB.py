@@ -29,12 +29,12 @@ class YT_BB(Dataset):
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
         tmp_df.columns = col_names
 
-        self.image_arr = np.asarray(self.tmp_df.iloc[:, 2])
-        self.label_arr = np.asarray(self.tmp_df.iloc[:, 1])
-        self.xmin_arr = np.asarray(self.tmp_df.iloc[:, 5])
-        self.xmax_arr = np.asarray(self.tmp_df.iloc[:, 6])
-        self.ymin_arr = np.asarray(self.tmp_df.iloc[:, 7])
-        self.ymax_arr = np.asarray(self.tmp_df.iloc[:, 8]) 
+        self.image_arr = np.asarray(tmp_df.iloc[:, 2])
+        self.label_arr = np.asarray(tmp_df.iloc[:, 1])
+        self.xmin_arr = np.asarray(tmp_df.iloc[:, 5])
+        self.xmax_arr = np.asarray(tmp_df.iloc[:, 6])
+        self.ymin_arr = np.asarray(tmp_df.iloc[:, 7])
+        self.ymax_arr = np.asarray(tmp_df.iloc[:, 8]) 
 
     def __getitem__(self, index):
         # Get output image.
