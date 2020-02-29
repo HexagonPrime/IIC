@@ -9,4 +9,4 @@
 conda activate py2
 #module load libs/cuda
 
-export CUDA_VISIBLE_DEVICES=0 && nohup python -m code.scripts.cluster.YT_BB_script --model_ind 100  --arch ClusterNet5gTwoHead --mode IID --dataset YT_BB --dataset_root "/users/k1763920/yt_bb" --out_root "/users/k1763920/out" --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 2000 --batch_sz 660 --num_dataloaders 5 --num_sub_heads 5 --crop_orig --rand_crop_sz 20 --input_sz 32 --head_A_first --head_B_epochs 2 --base_frame 0 --base_interval 2 --base_num 5 --interval 0 --crop_by_bb True > "/users/k1763920/out/100.out" &
+export CUDA_VISIBLE_DEVICES=0 && nohup python -m code.scripts.cluster.YT_BB_script --model_ind 3  --arch ClusterNet5gTwoHead --mode IID --dataset YT_BB --dataset_root "/users/k1763920/yt_bb" --out_root "/users/k1763920/out/" --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 2000 --batch_sz 660 --num_dataloaders 5 --num_sub_heads 5 --crop_orig --rand_crop_sz 20 --input_sz 32 --head_A_first --head_B_epochs 2 --base_frame 0 --base_interval 2 --base_num 5 --interval 3 --crop_by_bb > "/users/k1763920/out/3.out" &
