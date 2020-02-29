@@ -34,7 +34,8 @@ class YT_BB(Dataset):
         self.xmin_arr = np.asarray(tmp_df.iloc[:, 5])
         self.xmax_arr = np.asarray(tmp_df.iloc[:, 6])
         self.ymin_arr = np.asarray(tmp_df.iloc[:, 7])
-        self.ymax_arr = np.asarray(tmp_df.iloc[:, 8]) 
+        self.ymax_arr = np.asarray(tmp_df.iloc[:, 8])
+        print len(self.image_arr)
 
     def __getitem__(self, index):
         # Get output image.
