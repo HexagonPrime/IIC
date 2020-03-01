@@ -121,7 +121,8 @@ parser.add_argument("--crop_by_bb", dest="crop_by_bb", default=False,
 # whether includes the increment on sample repeats
 parser.add_argument("--frame_increment", dest="frame_increment", default=False,
                     action="store_true")
-
+parser.add_argument("--train_partition", type=str, default='train')
+parser.add_argument("--test_partition", type=str, default='test')
 config = parser.parse_args()
 
 # Setup ------------------------------------------------------------------------

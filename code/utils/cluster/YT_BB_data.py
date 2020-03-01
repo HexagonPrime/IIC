@@ -22,11 +22,11 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
   assert (config.twohead)
 
   if config.dataset == "YT_BB":
-    config.train_partitions_head_A = 'train'
+    config.train_partitions_head_A = config.train_partition
     config.train_partitions_head_B = config.train_partitions_head_A
 
-    config.mapping_assignment_partitions = 'test'
-    config.mapping_test_partitions = 'test'
+    config.mapping_assignment_partitions = config.test_partition
+    config.mapping_test_partitions = config.test_partition
 
     dataset_class = YT_BB  #TODO YT_BB custom class
 
