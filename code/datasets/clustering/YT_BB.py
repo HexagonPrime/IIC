@@ -19,13 +19,24 @@ class YT_BB(Dataset):
 	self.root = root
         if frame > 9:
             frame = 9
-        self.csv_path = root + '/frame' + str(frame) + '_' + partition + '.csv'
+        csv_path_train = root + '/frame' + str(frame) + '_train' + '.csv'
+        csv_path_test = root + '/frame' + str(frame) + '_test' + '.csv'
         self.transform = transform
         self.crop = crop
         print 'Crop: ' + str(self.crop)
         print 'Frame: ' + str(frame)
 
-        tmp_df = pd.DataFrame.from_csv(self.csv_path, header=None, index_col=False)
+        if partition == 'train':
+            tmp_df = pd.DataFrame.from_csv(self.csv_path_train, header=None, index_col=False)
+        elif partition == 'test':
+            tmp_df = pd.DataFrame.from_csv(self.csv_path_test, header=None, index_col=False)
+        elif partition == 'train+test':
+            tmp_df_train = pd.DataFrame.from_csv(self.csv_path_train, header=None, index_col=False)
+            tmp_df_test = pd.DataFrame.from_csv(self.csv_path_test, header=None, index_col=False)
+            tmp_df = pd.concat([tmp_df_train, tmp_df_test])
+        else:
+            assert(False)
+
         col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
         tmp_df.columns = col_names
 

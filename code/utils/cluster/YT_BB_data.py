@@ -22,11 +22,11 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
   assert (config.twohead)
 
   if config.dataset == "YT_BB":
-    config.train_partitions_head_A = [True, False]
+    config.train_partitions_head_A = 'train+test'
     config.train_partitions_head_B = config.train_partitions_head_A
 
-    config.mapping_assignment_partitions = [True, False]
-    config.mapping_test_partitions = [True, False]
+    config.mapping_assignment_partitions = 'train+test'
+    config.mapping_test_partitions = 'train+test'
 
     dataset_class = YT_BB  #TODO YT_BB custom class
 
@@ -51,22 +51,22 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 
   dataloaders_head_A = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        #partitions=config.train_partitions_head_A,
+                        partitions=config.train_partitions_head_A,
                        )
 
   dataloaders_head_B = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        #partitions=config.train_partitions_head_B,
+                        partitions=config.train_partitions_head_B,
                        )
 
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           #partitions=config.mapping_assignment_partitions
+                           partitions=config.mapping_assignment_partitions
                            )
 
   mapping_test_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           #partitions=config.mapping_test_partitions
+                           partitions=config.mapping_test_partitions
                           )
 
   return dataloaders_head_A, dataloaders_head_B, \
@@ -76,7 +76,7 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 # Data creation helpers --------------------------------------------------------
 
 def _create_dataloaders(config, dataset_class, tf1, tf2,
-                        shuffle=False):
+                        shuffle=False, partition):
   curr_frame = int(config.base_frame)
   train_imgs_list = []
   for i in xrange(config.base_num):
@@ -84,7 +84,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
                                     transform=tf1,
                                     frame=curr_frame + config.base_interval * i,
                                     crop=config.crop_by_bb,
-                                    partition='train')
+                                    partition=partition)
     train_imgs_list.append(train_imgs_curr)
 
   train_imgs = ConcatDataset(train_imgs_list)
@@ -119,7 +119,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
                                          transform=tf2,
 	                                 frame=curr_frame + config.base_interval * i,
                                          crop=config.crop_by_bb,
-                                         partition='train')
+                                         partition=partition)
 
       train_tf_imgs_list.append(train_imgs_tf_curr)
 
@@ -149,7 +149,8 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
 def _create_mapping_loader(config, dataset_class, tf3, 
                            truncate=False, truncate_pc=None,
                            tencrop=False,
-                           shuffle=False):
+                           shuffle=False,
+                           partition):
   if truncate:
     print("Note: creating mapping loader with truncate == True")
 
@@ -162,7 +163,7 @@ def _create_mapping_loader(config, dataset_class, tf3,
                               transform=tf3,
                               frame=config.base_frame + config.base_interval * i,
                               crop=config.crop_by_bb,
-                              partition='test')
+                              partition=partition)
 
     if truncate:
       print("shrinking dataset from %d" % len(imgs_curr))
