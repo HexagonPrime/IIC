@@ -51,22 +51,22 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 
   dataloaders_head_A = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        partitions=config.train_partitions_head_A,
+                        partition=config.train_partitions_head_A,
                        )
 
   dataloaders_head_B = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
-                        partitions=config.train_partitions_head_B,
+                        partition=config.train_partitions_head_B,
                        )
 
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_assignment_partitions
+                           partition=config.mapping_assignment_partitions
                            )
 
   mapping_test_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
-                           partitions=config.mapping_test_partitions
+                           partition=config.mapping_test_partitions
                           )
 
   return dataloaders_head_A, dataloaders_head_B, \
