@@ -17,8 +17,7 @@ class YT_BB(Dataset):
     
     def __init__(self, root, transform, frame, crop, partition):
 	self.root = root
-        if frame > 9:
-            frame = 9
+        frame = frame % 10
         csv_path_train = root + '/frame' + str(frame) + '_train' + '.csv'
         csv_path_test = root + '/frame' + str(frame) + '_test' + '.csv'
         self.transform = transform
