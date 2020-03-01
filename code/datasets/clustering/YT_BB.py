@@ -27,12 +27,12 @@ class YT_BB(Dataset):
         print 'Frame: ' + str(frame)
 
         if partition == 'train':
-            tmp_df = pd.DataFrame.from_csv(self.csv_path_train, header=None, index_col=False)
+            tmp_df = pd.DataFrame.from_csv(csv_path_train, header=None, index_col=False)
         elif partition == 'test':
-            tmp_df = pd.DataFrame.from_csv(self.csv_path_test, header=None, index_col=False)
+            tmp_df = pd.DataFrame.from_csv(csv_path_test, header=None, index_col=False)
         elif partition == 'train+test':
-            tmp_df_train = pd.DataFrame.from_csv(self.csv_path_train, header=None, index_col=False)
-            tmp_df_test = pd.DataFrame.from_csv(self.csv_path_test, header=None, index_col=False)
+            tmp_df_train = pd.DataFrame.from_csv(csv_path_train, header=None, index_col=False)
+            tmp_df_test = pd.DataFrame.from_csv(csv_path_test, header=None, index_col=False)
             tmp_df = pd.concat([tmp_df_train, tmp_df_test])
         else:
             assert(False)
