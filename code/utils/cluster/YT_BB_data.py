@@ -76,7 +76,7 @@ def cluster_twohead_create_YT_BB_dataloaders(config):
 # Data creation helpers --------------------------------------------------------
 
 def _create_dataloaders(config, dataset_class, tf1, tf2,
-                        shuffle=False, partition):
+                        partition, shuffle=False):
   curr_frame = int(config.base_frame)
   train_imgs_list = []
   for i in xrange(config.base_num):
@@ -146,11 +146,10 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   return dataloaders
 
 
-def _create_mapping_loader(config, dataset_class, tf3, 
+def _create_mapping_loader(config, dataset_class, tf3, partition, 
                            truncate=False, truncate_pc=None,
                            tencrop=False,
-                           shuffle=False,
-                           partition):
+                           shuffle=False):
   if truncate:
     print("Note: creating mapping loader with truncate == True")
 
