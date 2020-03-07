@@ -161,23 +161,42 @@ def _create_mapping_loader(config, dataset_class, tf3, partition,
     assert (tf3 is None)
 
   imgs_list = []
-  for i in xrange(config.base_num):
-    imgs_curr = dataset_class(root=config.dataset_root,
-                              transform=tf3,
-                              frame=config.base_frame + config.base_interval * i,
-                              crop=config.crop_by_bb,
-                              partition=partition)
+  if config.test_on_all_frame:
+    for i in xrange(10):
+      imgs_curr = dataset_class(root=config.dataset_root,
+                                transform=tf3,
+                                frame=i,
+                                crop=config.crop_by_bb,
+                                partition=partition)
+  
+      if truncate:
+        print("shrinking dataset from %d" % len(imgs_curr))
+        imgs_curr = TruncatedDataset(imgs_curr, pc=truncate_pc)
+        print("... to %d" % len(imgs_curr))
 
-    if truncate:
-      print("shrinking dataset from %d" % len(imgs_curr))
-      imgs_curr = TruncatedDataset(imgs_curr, pc=truncate_pc)
-      print("... to %d" % len(imgs_curr))
-
-    if tencrop:
-      imgs_curr = TenCropAndFinish(imgs_curr, input_sz=config.input_sz,
+      if tencrop:
+        imgs_curr = TenCropAndFinish(imgs_curr, input_sz=config.input_sz,
                                  include_rgb=config.include_rgb)
 
-    imgs_list.append(imgs_curr)
+      imgs_list.append(imgs_curr)
+  else:
+    for i in xrange(config.base_num):
+      imgs_curr = dataset_class(root=config.dataset_root,
+                                transform=tf3,
+                                frame=config.base_frame + config.base_interval * i,
+                                crop=config.crop_by_bb,
+                                partition=partition)
+  
+      if truncate:
+        print("shrinking dataset from %d" % len(imgs_curr))
+        imgs_curr = TruncatedDataset(imgs_curr, pc=truncate_pc)
+        print("... to %d" % len(imgs_curr))
+
+      if tencrop:
+        imgs_curr = TenCropAndFinish(imgs_curr, input_sz=config.input_sz,
+                                   include_rgb=config.include_rgb)
+  
+      imgs_list.append(imgs_curr)
 
   imgs = ConcatDataset(imgs_list)
   dataloader = torch.utils.data.DataLoader(imgs,
