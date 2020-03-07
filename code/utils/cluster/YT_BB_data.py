@@ -115,9 +115,13 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
     # for each base train dataset, create corresponding transformed dataset,
     # then concat together.
     for i in xrange(config.base_num):
+      this_base_frame = config.base_frame + config.base_interval * i
+      this_tf_frame = (curr_frame + config.base_interval * i) % 19
+      if this_tf_frame > 9:
+        this_tf_frame = this_base_frame - (this_tf_frame - 9)
       train_imgs_tf_curr = dataset_class(root=config.dataset_root,
                                          transform=tf2,
-	                                 frame=curr_frame + config.base_interval * i,
+	                                 frame=this_tf_frame,
                                          crop=config.crop_by_bb,
                                          partition=partition)
 
