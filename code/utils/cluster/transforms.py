@@ -144,7 +144,7 @@ def sobel_make_transforms(config, random_affine=False,
       imgs_tf_crops.append(torchvision.transforms.RandomCrop(crop_sz))
     tf2_list += [torchvision.transforms.RandomChoice(imgs_tf_crops)]
   elif config.random_crop:
-    print 'random crop on x'
+    print ('random crop on x')
     tf2_list += [
       torchvision.transforms.RandomCrop(tuple(np.array([config.rand_crop_sz,
                                                         config.rand_crop_sz])))]
