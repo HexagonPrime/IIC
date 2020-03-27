@@ -150,7 +150,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partition,
     assert (tf3 is None)
 
   imgs_list = []
-  if config.test_on_all_frame:
+  if config.test_on_all_frame and partition == "test":
     for i in xrange(10):
       imgs_curr = dataset_class(root=config.dataset_root,
                                 transform=tf3,
