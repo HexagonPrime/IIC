@@ -123,6 +123,8 @@ parser.add_argument("--frame_increment", dest="frame_increment", default=False,
                     action="store_true")
 parser.add_argument("--train_partition", type=str, default='train')
 parser.add_argument("--test_partition", type=str, default='test')
+parser.add_argument("--assignment_partition", type=str, default='train')
+
 parser.add_argument("--random_crop", dest="random_crop", default=False,
                     action="store_true")
 parser.add_argument("--test_on_all_frame", dest="test_on_all_frame", default=False,
