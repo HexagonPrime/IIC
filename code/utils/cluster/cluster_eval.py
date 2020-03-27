@@ -113,9 +113,24 @@ def cluster_subheads_eval(config, net,
     best_sub_head = best_sub_head_eval
 
   if config.mode == "IID":
-    assert (
-      config.mapping_assignment_partitions == config.mapping_test_partitions)
-    test_accs = train_accs
+    #assert (
+    #  config.mapping_assignment_partitions == config.mapping_test_partitions)
+    #test_accs = train_accs
+    flat_predss_all, flat_targets_all, = \
+      get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
+                  using_IR=using_IR,
+                  verbose=verbose)
+
+    num_samples = flat_targets_all.shape[0]
+    test_accs = np.zeros(config.num_sub_heads, dtype=np.float32)
+    for i in xrange(config.num_sub_heads):
+      reordered_preds = torch.zeros(num_samples,
+                                    dtype=flat_predss_all[0].dtype).cuda()
+      for pred_i, target_i in all_matches[i]:
+        reordered_preds[flat_predss_all[i] == pred_i] = target_i
+      test_acc = _acc(reordered_preds, flat_targets_all, config.gt_k, verbose=0)
+
+      test_accs[i] = test_acc
   elif config.mode == "IID+":
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
@@ -136,10 +151,14 @@ def cluster_subheads_eval(config, net,
     assert (False)
 
   return {"test_accs": list(test_accs),
+          "train_best": train_accs.max(),
           "avg": np.mean(test_accs),
+          "train_avg": np.mean(train_accs),
           "std": np.std(test_accs),
+          "train_std": np.std(train_accs),
           "best": test_accs[best_sub_head],
           "worst": test_accs.min(),
+          "train_worst": train_accs.min(),
           "best_train_sub_head": best_sub_head,  # from training data
           "best_train_sub_head_match": all_matches[best_sub_head],
           "train_accs": list(train_accs)}
@@ -353,10 +372,12 @@ def cluster_eval(config, net, mapping_assignment_dataloader,
     print(stats_dict)
   else:
     acc = stats_dict["best"]
+    best_train_acc = stats_dict["train_best"]
     is_best = (len(config.epoch_acc) > 0) and (acc > max(config.epoch_acc))
 
     config.epoch_stats.append(stats_dict)
     config.epoch_acc.append(acc)
+    config.epoch_train_acc.append(best_train_acc)
     config.epoch_avg_subhead_acc.append(stats_dict["avg"])
 
     return is_best
