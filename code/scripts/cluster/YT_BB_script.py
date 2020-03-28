@@ -250,11 +250,13 @@ else:
     config.epoch_acc = []
     config.epoch_avg_subhead_acc = []
     config.epoch_stats = []
+    config.epoch_train_acc = []
 
     if config.double_eval:
         config.double_eval_acc = []
         config.double_eval_avg_subhead_acc = []
         config.double_eval_stats = []
+        config.epoch_train_acc = []
 
     config.epoch_loss_head_A = []
     config.epoch_loss_no_lamb_head_A = []
