@@ -143,7 +143,7 @@ def sobel_make_transforms(config, random_affine=False,
       print("adding crop size option for imgs_tf: %d" % crop_sz)
       imgs_tf_crops.append(torchvision.transforms.RandomCrop(crop_sz))
     tf2_list += [torchvision.transforms.RandomChoice(imgs_tf_crops)]
-  elif config.random_crop:
+  elif config.rand_crop:
     print ('include random crop in transformation g')
     tf2_list += [
       torchvision.transforms.RandomCrop(tuple(np.array([config.rand_crop_sz,
@@ -180,14 +180,15 @@ def sobel_make_transforms(config, random_affine=False,
     )
   else:
     print("not using cutout")
-
-  tf2_list += [
-    torchvision.transforms.Resize(tuple(np.array([config.input_sz,
-                                                  config.input_sz]))),
-    torchvision.transforms.RandomHorizontalFlip(),
-    torchvision.transforms.ColorJitter(brightness=0.4, contrast=0.4,
-                                       saturation=0.4, hue=0.125)
-  ]
+  if not config.remove_g:
+    print ("add transformation g")
+    tf2_list += [
+      torchvision.transforms.Resize(tuple(np.array([config.input_sz,
+                                                    config.input_sz]))),
+      torchvision.transforms.RandomHorizontalFlip(),
+      torchvision.transforms.ColorJitter(brightness=0.4, contrast=0.4,
+                                         saturation=0.4, hue=0.125)
+    ]
 
   tf2_list.append(custom_greyscale_to_tensor(config.include_rgb))
 
