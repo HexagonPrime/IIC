@@ -131,6 +131,13 @@ def cluster_subheads_eval(config, net,
       test_acc = _acc(reordered_preds, flat_targets_all, config.gt_k, verbose=0)
 
       test_accs[i] = test_acc
+      test_all_matches, test_accs_2 = _get_assignment_data_matches(net,
+                                                         mapping_test_dataloader,
+                                                         config,
+                                                         sobel=sobel,
+                                                         using_IR=using_IR,
+                                                         get_data_fn=get_data_fn,
+                                                         verbose=verbose)
   elif config.mode == "IID+":
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
@@ -151,17 +158,19 @@ def cluster_subheads_eval(config, net,
     assert (False)
 
   return {"test_accs": list(test_accs),
-          "train_best": train_accs.max(),
           "avg": np.mean(test_accs),
           "train_avg": np.mean(train_accs),
           "std": np.std(test_accs),
           "train_std": np.std(train_accs),
-          "best": test_accs[best_sub_head],
           "worst": test_accs.min(),
           "train_worst": train_accs.min(),
           "best_train_sub_head": best_sub_head,  # from training data
           "best_train_sub_head_match": all_matches[best_sub_head],
-          "train_accs": list(train_accs)}
+          "train_accs": list(train_accs),
+          "test_accs_2": list(test_accs_2),
+          "train_best": train_accs.max(),
+          "best": test_accs[best_sub_head],
+          "test_best_2": test_accs_2.max()}
 
 
 def _get_assignment_data_matches(net, mapping_assignment_dataloader, config,
