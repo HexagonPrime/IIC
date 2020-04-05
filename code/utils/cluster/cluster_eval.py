@@ -382,11 +382,13 @@ def cluster_eval(config, net, mapping_assignment_dataloader,
   else:
     acc = stats_dict["best"]
     best_train_acc = stats_dict["train_best"]
+    best_test_acc_2 = stats_dict["test_best_2"]
     is_best = (len(config.epoch_acc) > 0) and (acc > max(config.epoch_acc))
 
     config.epoch_stats.append(stats_dict)
     config.epoch_acc.append(acc)
     config.epoch_train_acc.append(best_train_acc)
+    config.epoch_test_acc_2.append(best_test_acc_2)
     config.epoch_avg_subhead_acc.append(stats_dict["avg"])
 
     return is_best
