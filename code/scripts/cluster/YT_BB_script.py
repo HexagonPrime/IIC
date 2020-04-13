@@ -129,11 +129,13 @@ parser.add_argument("--random_crop", dest="random_crop", default=False,
                     action="store_true")
 parser.add_argument("--test_on_all_frame", dest="test_on_all_frame", default=False,
                     action="store_true")
-parser.add_argument("--rand_crop", dest="rand_crop", default=False,
+parser.add_argument("--rand_crop_x_prime", dest="rand_crop_x_prime", default=False,
                     action="store_true")
 parser.add_argument("--remove_g", dest="remove_g", default=False,
                     action="store_true")
 parser.add_argument("--center_crop_x", dest="center_crop_x", default=False,
+                    action="store_true")
+parser.add_argument("--center_crop_x_prime", dest="center_crop_x_prime", default=False,
                     action="store_true")
 config = parser.parse_args()
 
