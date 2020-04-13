@@ -113,12 +113,22 @@ def sobel_make_transforms(config, random_affine=False,
   tf2_list = []
   tf3_list = []
   if config.crop_orig:
-    tf1_list += [
-      torchvision.transforms.RandomCrop(tuple(np.array([config.rand_crop_sz,
-                                                        config.rand_crop_sz]))),
-      torchvision.transforms.Resize(tuple(np.array([config.input_sz,
-                                                    config.input_sz]))),
-    ]
+    if not config.center_crop_x:
+      print ('random crop x')
+      tf1_list += [
+        torchvision.transforms.RandomCrop(tuple(np.array([config.rand_crop_sz,
+                                                          config.rand_crop_sz]))),
+        torchvision.transforms.Resize(tuple(np.array([config.input_sz,
+                                                      config.input_sz]))),
+      ]
+    else:
+      print ('center crop x')
+      tf1_list += [
+        torchvision.transforms.CenterCrop(tuple(np.array([config.rand_crop_sz,
+                                                          config.rand_crop_sz]))),
+        torchvision.transforms.Resize(tuple(np.array([config.input_sz,
+                                                      config.input_sz]))),
+      ]
     tf3_list += [
       torchvision.transforms.CenterCrop(tuple(np.array([config.rand_crop_sz,
                                                         config.rand_crop_sz]))),
