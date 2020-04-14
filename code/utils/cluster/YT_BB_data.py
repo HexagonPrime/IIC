@@ -12,8 +12,6 @@ from code.utils.semisup.dataset import TenCropAndFinish
 from .general import reorder_train_deterministic
 
 from code.datasets.clustering.YT_BB import YT_BB
-from code.datasets.clustering.YT_BB_5 import YT_BB_5
-
 
 # Used by sobel and greyscale clustering twohead scripts -----------------------
 
