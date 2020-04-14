@@ -107,35 +107,40 @@ parser.add_argument("--cutout", default=False, action="store_true")
 parser.add_argument("--cutout_p", type=float, default=0.5)
 parser.add_argument("--cutout_max_box", type=float, default=0.5)
 
-# the very base frame
+# The very base frame.
 parser.add_argument("--base_frame", type=int, default=0)
-# interval between bases
+# Interval between bases.
 parser.add_argument("--base_interval", type=int, default=1)
-# number of base frame to use
+# Number of base frame to use.
 parser.add_argument("--base_num", type=int, default=1)
-# interval between input pairs
+# Interval between input pairs.
 parser.add_argument("--interval", type=int, default=0)
-# whether crop the image by bounding boxes
+# Whether crop the image by bounding boxes.
 parser.add_argument("--crop_by_bb", dest="crop_by_bb", default=False,
                     action="store_true")
-# whether includes the increment on sample repeats
+# Whether includes the increment on sample repeats.
 parser.add_argument("--frame_increment", dest="frame_increment", default=False,
                     action="store_true")
+# Which partition to use for training.
 parser.add_argument("--train_partition", type=str, default='train')
+# Which partition to use for testing.
 parser.add_argument("--test_partition", type=str, default='test')
+# Which partition to use for determining the matches between clusters and ground truth classes.
 parser.add_argument("--assignment_partition", type=str, default='train')
-
-parser.add_argument("--random_crop", dest="random_crop", default=False,
-                    action="store_true")
+# Whether testing on all frames or only the frames that match thos used in training.
 parser.add_argument("--test_on_all_frame", dest="test_on_all_frame", default=False,
                     action="store_true")
+# Whether random crop x'.
 parser.add_argument("--rand_crop_x_prime", dest="rand_crop_x_prime", default=False,
                     action="store_true")
-parser.add_argument("--remove_g", dest="remove_g", default=False,
+# Whether center crop x'.
+parser.add_argument("--center_crop_x_prime", dest="center_crop_x_prime", default=False,
                     action="store_true")
+# When crop_orig is true, this parameter decides whether to use center crop or random crop as pre-processing for x.
 parser.add_argument("--center_crop_x", dest="center_crop_x", default=False,
                     action="store_true")
-parser.add_argument("--center_crop_x_prime", dest="center_crop_x_prime", default=False,
+# Whether remove transformation g, including resize, flip and colour changing.
+parser.add_argument("--remove_g", dest="remove_g", default=False,
                     action="store_true")
 config = parser.parse_args()
 

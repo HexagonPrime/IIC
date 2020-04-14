@@ -9,14 +9,16 @@ from PIL import Image
 class YT_BB(Dataset):
     """
     Arguments:
-        root: CSV files path
-        transform: desired transformation
-        frame: which frame to take
-        crop: whether crop by the bounding box
+        root: CSV files path.
+        transform: desired transformation.
+        frame: which frame to take.
+        crop: whether crop by the bounding box.
+        partition: one of 'train', 'test' and 'train+test', refers to which partition to use.
     """
     
     def __init__(self, root, transform, frame, crop, partition):
 	self.root = root
+        # Avoid exceeding 10 frames.
         frame = frame % 19
         if frame > 9:
             frame = 18 - frame
@@ -54,26 +56,16 @@ class YT_BB(Dataset):
         img = Image.open(self.root + self.image_arr[index])
         label = self.label_arr[index]
 	
+        # Crop frames by bounding boxes. It is kept for the use of original YT_BB, redundant for cropped yt_bb_small.
         if self.crop:
 	    width, height = img.size
-# 	    print width
-# 	    print height
 	    left = int(width * self.xmin_arr[index])
 	    top = int(height * self.ymin_arr[index])
 	    right = int(width * self.xmax_arr[index])
 	    bottom = int(height * self.ymax_arr[index])
-# 	    print left
-# 	    print top
-# 	    print right
-# 	    print bottom
 	    img = img.crop((left, top, right, bottom))
-	    #new_width, new_height = img.size
 	    img = transforms.Resize([32,32])(img)
-# 	    print new_width
-# 	    print new_height
-# 	    img.show()
-	
-	#img = img.convert('RGB')
+
         if self.transform is not None:
             img = self.transform(img)
         return img, label

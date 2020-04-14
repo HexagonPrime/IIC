@@ -97,7 +97,7 @@ def cluster_subheads_eval(config, net,
   script), or eval. Former does not use labels for the selection at all and this
   has negligible impact on accuracy metric for our models.
   """
-
+  # Get train accuracy and matches.
   all_matches, train_accs = _get_assignment_data_matches(net,
                                                          mapping_assignment_dataloader,
                                                          config,
@@ -116,6 +116,7 @@ def cluster_subheads_eval(config, net,
     #assert (
     #  config.mapping_assignment_partitions == config.mapping_test_partitions)
     #test_accs = train_accs
+    # Get the test accuracy using matches determined by .
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
                   using_IR=using_IR,
@@ -131,7 +132,8 @@ def cluster_subheads_eval(config, net,
       test_acc = _acc(reordered_preds, flat_targets_all, config.gt_k, verbose=0)
 
       test_accs[i] = test_acc
-      test_all_matches, test_accs_2 = _get_assignment_data_matches(net,
+    # Get test accracy and matches(using test set as assignment dataset).
+    test_all_matches, test_accs_2 = _get_assignment_data_matches(net,
                                                          mapping_test_dataloader,
                                                          config,
                                                          sobel=sobel,
