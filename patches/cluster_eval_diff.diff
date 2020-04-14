@@ -1,0 +1,88 @@
+diff --git a/code/utils/cluster/cluster_eval.py b/code/utils/cluster/cluster_eval.py
+index 7ca93d2..7ed1ade 100644
+--- a/code/utils/cluster/cluster_eval.py
++++ b/code/utils/cluster/cluster_eval.py
+@@ -97,7 +97,7 @@ def cluster_subheads_eval(config, net,
+   script), or eval. Former does not use labels for the selection at all and this
+   has negligible impact on accuracy metric for our models.
+   """
+-
++  # Get train accuracy and matches.
+   all_matches, train_accs = _get_assignment_data_matches(net,
+                                                          mapping_assignment_dataloader,
+                                                          config,
+@@ -113,9 +113,33 @@ def cluster_subheads_eval(config, net,
+     best_sub_head = best_sub_head_eval
+ 
+   if config.mode == "IID":
+-    assert (
+-      config.mapping_assignment_partitions == config.mapping_test_partitions)
+-    test_accs = train_accs
++    #assert (
++    #  config.mapping_assignment_partitions == config.mapping_test_partitions)
++    #test_accs = train_accs
++    # Get the test accuracy using matches determined by .
++    flat_predss_all, flat_targets_all, = \
++      get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
++                  using_IR=using_IR,
++                  verbose=verbose)
++
++    num_samples = flat_targets_all.shape[0]
++    test_accs = np.zeros(config.num_sub_heads, dtype=np.float32)
++    for i in xrange(config.num_sub_heads):
++      reordered_preds = torch.zeros(num_samples,
++                                    dtype=flat_predss_all[0].dtype).cuda()
++      for pred_i, target_i in all_matches[i]:
++        reordered_preds[flat_predss_all[i] == pred_i] = target_i
++      test_acc = _acc(reordered_preds, flat_targets_all, config.gt_k, verbose=0)
++
++      test_accs[i] = test_acc
++    # Get test accracy and matches(using test set as assignment dataset).
++    test_all_matches, test_accs_2 = _get_assignment_data_matches(net,
++                                                         mapping_test_dataloader,
++                                                         config,
++                                                         sobel=sobel,
++                                                         using_IR=using_IR,
++                                                         get_data_fn=get_data_fn,
++                                                         verbose=verbose)
+   elif config.mode == "IID+":
+     flat_predss_all, flat_targets_all, = \
+       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
+@@ -137,12 +161,18 @@ def cluster_subheads_eval(config, net,
+ 
+   return {"test_accs": list(test_accs),
+           "avg": np.mean(test_accs),
++          "train_avg": np.mean(train_accs),
+           "std": np.std(test_accs),
+-          "best": test_accs[best_sub_head],
++          "train_std": np.std(train_accs),
+           "worst": test_accs.min(),
++          "train_worst": train_accs.min(),
+           "best_train_sub_head": best_sub_head,  # from training data
+           "best_train_sub_head_match": all_matches[best_sub_head],
+-          "train_accs": list(train_accs)}
++          "train_accs": list(train_accs),
++          "test_accs_2": list(test_accs_2),
++          "train_best": train_accs.max(),
++          "best": test_accs[best_sub_head],
++          "test_best_2": test_accs_2.max()}
+ 
+ 
+ def _get_assignment_data_matches(net, mapping_assignment_dataloader, config,
+@@ -353,10 +383,14 @@ def cluster_eval(config, net, mapping_assignment_dataloader,
+     print(stats_dict)
+   else:
+     acc = stats_dict["best"]
++    best_train_acc = stats_dict["train_best"]
++    best_test_acc_2 = stats_dict["test_best_2"]
+     is_best = (len(config.epoch_acc) > 0) and (acc > max(config.epoch_acc))
+ 
+     config.epoch_stats.append(stats_dict)
+     config.epoch_acc.append(acc)
++    config.epoch_train_acc.append(best_train_acc)
++    config.epoch_test_acc_2.append(best_test_acc_2)
+     config.epoch_avg_subhead_acc.append(stats_dict["avg"])
+ 
+-    return is_best
+\ No newline at end of file
++    return is_best
