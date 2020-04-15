@@ -1,5 +1,5 @@
 diff --git a/code/utils/cluster/cluster_eval.py b/code/utils/cluster/cluster_eval.py
-index 7ca93d2..7ed1ade 100644
+index 7ca93d2..38db2b4 100644
 --- a/code/utils/cluster/cluster_eval.py
 +++ b/code/utils/cluster/cluster_eval.py
 @@ -97,7 +97,7 @@ def cluster_subheads_eval(config, net,
@@ -21,7 +21,7 @@ index 7ca93d2..7ed1ade 100644
 +    #assert (
 +    #  config.mapping_assignment_partitions == config.mapping_test_partitions)
 +    #test_accs = train_accs
-+    # Get the test accuracy using matches determined by .
++    # Get the test accuracy using matches determined by test set.
 +    flat_predss_all, flat_targets_all, = \
 +      get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
 +                  using_IR=using_IR,
