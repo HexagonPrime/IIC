@@ -117,6 +117,7 @@ def cluster_subheads_eval(config, net,
     #  config.mapping_assignment_partitions == config.mapping_test_partitions)
     #test_accs = train_accs
     # Get the test accuracy using matches determined by test set.
+    net.eval()
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
                   using_IR=using_IR,
