@@ -499,3 +499,4 @@ for e_i in xrange(next_epoch, config.num_epochs):
 
     if config.test_code:
         exit(0)
+
