@@ -13,6 +13,15 @@ from .general import reorder_train_deterministic
 
 from code.datasets.clustering.YT_BB import YT_BB
 
+"""
+Claim: The code from this file was originally taken from 'code/utils/cluster/data.py',
+the original code can also be viewed at:
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/utils/cluster/data.py'
+the modifications were done by Cai Shengqu for the using of the benchmark dataset,
+which can be viewed at 'patches/dataloading.diff'.
+"""
+
+
 # Used by sobel and greyscale clustering twohead scripts -----------------------
 
 def cluster_twohead_create_YT_BB_dataloaders(config):
