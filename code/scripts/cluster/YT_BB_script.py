@@ -23,6 +23,14 @@ from code.utils.cluster.YT_BB_data import cluster_twohead_create_YT_BB_dataloade
 from code.utils.cluster.IID_losses import IID_loss
 
 """
+Claim: The code from this file was originally taken from 'IIC/code/scripts/cluster/cluster_sobel_twohead.py',
+the original code can also be viewed at:
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/scripts/cluster/cluster_sobel_twohead.py'.
+The modifications were done by Cai Shengqu for the using of the benchmark dataset and additional parameters,
+which can be viewed at 'patches/script.diff'.
+"""
+
+"""
   Fully unsupervised clustering ("IIC" = "IID").
   Train and test script (coloured datasets).
   Network has two heads, for overclustering and final clustering.

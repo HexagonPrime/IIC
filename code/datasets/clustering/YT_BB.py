@@ -6,6 +6,11 @@ from torchvision import transforms
 from torch.utils.data.dataset import Dataset 
 from PIL import Image
 
+"""
+Claim: The code from this file was written by Cai Shengqu based on
+'https://github.com/utkuozbulak/pytorch-custom-dataset-examples'.
+"""
+
 class YT_BB(Dataset):
     """
     Arguments:

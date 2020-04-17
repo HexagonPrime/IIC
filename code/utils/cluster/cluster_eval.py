@@ -11,6 +11,13 @@ from .IID_losses import IID_loss
 from .eval_metrics import _hungarian_match, _original_match, _acc
 from .transforms import sobel_process
 
+"""
+Claim: The code from this file was based on
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/utils/cluster/cluster_eval.py'.
+The modifications were done by Cai Shengqu for the additional tests
+and double evaluations correspond to the experiemnts,
+which can be viewed at 'patches/cluster_eval_diff.diff'.
+"""
 
 def _clustering_get_data(config, net, dataloader, sobel=False,
                          using_IR=False, get_soft=False, verbose=0):
