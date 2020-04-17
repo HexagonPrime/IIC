@@ -98,7 +98,7 @@ def cluster_subheads_eval(config, net,
   has negligible impact on accuracy metric for our models.
   """
   # Get train accuracy and matches.
-  net.train()
+  #net.train()
   all_matches, train_accs = _get_assignment_data_matches(net,
                                                          mapping_assignment_dataloader,
                                                          config,
@@ -108,7 +108,7 @@ def cluster_subheads_eval(config, net,
                                                          verbose=verbose)
 
   best_sub_head_eval = np.argmax(train_accs)
-  net.eval()
+  #net.eval()
   if (config.num_sub_heads > 1) and (use_sub_head is not None):
     best_sub_head = use_sub_head
   else:
@@ -119,6 +119,7 @@ def cluster_subheads_eval(config, net,
     #  config.mapping_assignment_partitions == config.mapping_test_partitions)
     #test_accs = train_accs
     # Get the test accuracy using matches determined by test set.
+    net.eval()
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
                   using_IR=using_IR,
