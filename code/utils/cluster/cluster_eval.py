@@ -13,7 +13,8 @@ from .transforms import sobel_process
 
 """
 Claim: The code from this file was based on
-'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/utils/cluster/cluster_eval.py'.
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df
+/code/utils/cluster/cluster_eval.py'.
 The modifications were done by Cai Shengqu for the additional tests
 and double evaluations correspond to the experiemnts,
 which can be viewed at 'patches/cluster_eval_diff.diff'.
@@ -367,7 +368,8 @@ def cluster_eval(config, net, mapping_assignment_dataloader,
     # https://pytorch.org/docs/master/nn.html#torch.nn.BatchNorm2d
 
     stats_dict2 = cluster_subheads_eval(config, net,
-                                        mapping_assignment_dataloader=mapping_assignment_dataloader,
+                                        mapping_assignment_dataloader=\
+                                        mapping_assignment_dataloader,
                                         mapping_test_dataloader=mapping_test_dataloader,
                                         sobel=sobel,
                                         use_sub_head=use_sub_head)
@@ -382,7 +384,8 @@ def cluster_eval(config, net, mapping_assignment_dataloader,
 
   net.eval()
   stats_dict = cluster_subheads_eval(config, net,
-                                     mapping_assignment_dataloader=mapping_assignment_dataloader,
+                                     mapping_assignment_dataloader=\
+                                     mapping_assignment_dataloader,
                                      mapping_test_dataloader=mapping_test_dataloader,
                                      sobel=sobel,
                                      use_sub_head=use_sub_head)

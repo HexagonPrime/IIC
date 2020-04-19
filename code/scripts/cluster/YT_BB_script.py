@@ -23,11 +23,13 @@ from code.utils.cluster.YT_BB_data import cluster_twohead_create_YT_BB_dataloade
 from code.utils.cluster.IID_losses import IID_loss
 
 """
-Claim: The code from this file was originally taken from 'IIC/code/scripts/cluster/cluster_sobel_twohead.py',
+CLAIM: The code from this file was originally taken from
+'IIC/code/scripts/cluster/cluster_sobel_twohead.py',
 the original code can also be viewed at:
-'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/scripts/cluster/cluster_sobel_twohead.py'.
-The modifications were done by Cai Shengqu for the using of the benchmark dataset and additional parameters,
-which can be viewed at 'patches/script.diff'.
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df
+/code/scripts/cluster/cluster_sobel_twohead.py'.
+The modifications were done by Cai Shengqu for the using of the benchmark 
+dataset and additional parameters, which can be viewed at 'patches/script.diff'.
 """
 
 """
@@ -144,7 +146,8 @@ parser.add_argument("--rand_crop_x_prime", dest="rand_crop_x_prime", default=Fal
 # Whether center crop x'.
 parser.add_argument("--center_crop_x_prime", dest="center_crop_x_prime", default=False,
                     action="store_true")
-# When crop_orig is true, this parameter decides whether to use center crop or random crop as pre-processing for x.
+# When crop_orig is true, this parameter decides whether to use center crop
+# or random crop as pre-processing for x.
 parser.add_argument("--center_crop_x", dest="center_crop_x", default=False,
                     action="store_true")
 # Whether remove transformation g, including resize, flip and colour changing.

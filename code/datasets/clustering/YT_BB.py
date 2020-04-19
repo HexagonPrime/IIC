@@ -7,7 +7,7 @@ from torch.utils.data.dataset import Dataset
 from PIL import Image
 
 """
-Claim: The code from this file was written by Cai Shengqu based on
+CLAIM: The code from this file was written by Cai Shengqu based on
 'https://github.com/utkuozbulak/pytorch-custom-dataset-examples'.
 """
 
@@ -45,7 +45,8 @@ class YT_BB(Dataset):
         else:
             assert(False)
 
-        col_names = ['segment_id', 'class_id', 'path', 'timestamp', 'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
+        col_names = ['segment_id', 'class_id', 'path', 'timestamp',\
+                     'object_presence', 'xmin', 'xmax', 'ymin', 'ymax']
         tmp_df.columns = col_names
 
         self.image_arr = np.asarray(tmp_df.iloc[:, 2])
@@ -61,7 +62,8 @@ class YT_BB(Dataset):
         img = Image.open(self.root + self.image_arr[index])
         label = self.label_arr[index]
 	
-        # Crop frames by bounding boxes. It is kept for the use of original YT_BB, redundant for cropped yt_bb_small.
+        # Crop frames by bounding boxes. It is kept for the use of original YT_BB,
+        # redundant for cropped yt_bb_small.
         if self.crop:
 	    width, height = img.size
 	    left = int(width * self.xmin_arr[index])

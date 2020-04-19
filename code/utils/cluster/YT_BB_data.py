@@ -14,9 +14,11 @@ from .general import reorder_train_deterministic
 from code.datasets.clustering.YT_BB import YT_BB
 
 """
-Claim: The code from this file was originally taken from 'IIC/code/utils/cluster/data.py',
+CLAIM: The code from this file was originally taken from 
+'IIC/code/utils/cluster/data.py',
 the original code can also be viewed at:
-'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/code/utils/cluster/data.py'.
+'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df/
+code/utils/cluster/data.py'.
 The modifications were done by Cai Shengqu for the using of the benchmark dataset,
 which can be viewed at 'patches/dataloading.diff'.
 """
