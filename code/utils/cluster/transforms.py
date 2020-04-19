@@ -9,7 +9,7 @@ from PIL import Image
 from torch.autograd import Variable
 
 """
-Claim: The code from this file was based on
+CLAIM: The code from this file was based on
 'https://github.com/xu-ji/IIC/blob/68c5ad1e9799bb5ecd47bb24ad7f955c3bad15df
 /code/utils/cluster/transforms.py'.
 The modifications were done by Cai Shengqu for the additional parameters 
