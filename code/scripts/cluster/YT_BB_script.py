@@ -137,7 +137,7 @@ parser.add_argument("--train_partition", type=str, default='train')
 parser.add_argument("--test_partition", type=str, default='test')
 # Which partition to use for determining the matches between clusters and ground truth classes.
 parser.add_argument("--assignment_partition", type=str, default='train')
-# Whether testing on all frames or only the frames that match thos used in training.
+# Whether testing on all frames or only the frames that match those used in training.
 parser.add_argument("--test_on_all_frame", dest="test_on_all_frame", default=False,
                     action="store_true")
 # Whether random crop x'.
