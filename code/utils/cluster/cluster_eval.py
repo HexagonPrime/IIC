@@ -128,6 +128,7 @@ def cluster_subheads_eval(config, net,
     #test_accs = train_accs
     # Get the test accuracy using matches determined by test set.
     net.eval()
+    # CLAIM: code for this additional test on test set was copied from IID+ below.
     flat_predss_all, flat_targets_all, = \
       get_data_fn(config, net, mapping_test_dataloader, sobel=sobel,
                   using_IR=using_IR,
