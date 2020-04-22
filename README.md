@@ -14,6 +14,7 @@ wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download
 note:because of Google's policy, this command may expire in the future, if so, contact caishengqu@gmail.com for the benchmark dataset.  
 2. Install the required packages, can be viewed at package_versions.txt.  
 3. Direct to the IIC directory, run a command to train a desired model. Note that --dataset_root need to be changed to the directory of the benchmark dataset and --out_root need to be changed to the directory to save the model.  
+
 Initial Trials:  
 Model 0  
 export CUDA_VISIBLE_DEVICES=0 && python -m code.scripts.cluster.YT_BB_script --model_ind 0 --arch ClusterNet5gTwoHead --mode IID --dataset YT_BB --dataset_root "/users/k1763920/yt_bb_small" --out_root "/users/k1763920/out/" --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 101 --batch_sz 660 --num_dataloaders 3 --num_sub_heads 5 --input_sz 32 --crop_orig --rand_crop_sz 20 --head_A_first --head_B_epochs 2 --base_frame 0 --base_interval 1 --base_num 1 --interval 0 --train_partition 'train' --test_partition 'train' --assignment_partition 'train'  
@@ -69,7 +70,7 @@ export CUDA_VISIBLE_DEVICES=0 && python -m code.scripts.cluster.YT_BB_script --m
 Model 18  
 export CUDA_VISIBLE_DEVICES=0 && python -m code.scripts.cluster.YT_BB_script --model_ind 18 --arch ClusterNet5gTwoHead --mode IID --dataset YT_BB --dataset_root "/users/k1763920/yt_bb_small" --out_root "/users/k1763920/out/" --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 101 --batch_sz 660 --num_dataloaders 3 --num_sub_heads 5 --input_sz 32 --crop_orig --rand_crop_sz 20 --head_A_first --head_B_epochs 2 --base_frame 0 --base_interval 1 --base_num 10 --interval 2 --frame_increment --train_partition 'train' --test_partition 'test' --assignment_partition 'train' --test_on_all_frame  
   
-Remove pre-processing crop to x and test set  
+Remove pre-processing crop to x and test set:  
 Model 19  
 export CUDA_VISIBLE_DEVICES=0 && python -m code.scripts.cluster.YT_BB_script --model_ind 19 --arch ClusterNet5gTwoHead --mode IID --dataset YT_BB --dataset_root "/users/k1763920/yt_bb_small" --out_root "/users/k1763920/out/" --gt_k 10 --output_k_A 70 --output_k_B 10 --lamb 1.0 --lr 0.0001  --num_epochs 101 --batch_sz 660 --num_dataloaders 3 --num_sub_heads 5 --input_sz 32 --rand_crop_x_prime --rand_crop_sz 20 --head_A_first --head_B_epochs 2 --base_frame 0 --base_interval 1 --base_num 10 --interval 0 --frame_increment --train_partition 'train' --test_partition 'test' --assignment_partition 'train' --test_on_all_frame  
 Model 20  
