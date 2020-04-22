@@ -248,13 +248,20 @@ if config.restart:
         next_epoch = config.last_epoch + 1  # corresponds to last saved model
     else:
         # sanity check
+        # COMMENT BY CAI SHENGQU:this may be a bug in the original code, since
+        # config.last_epoch is not updated while the best model is saved,
+        # only when it is saved via save frequency.
+        # This check was commented out otherwise restart_from_best
+        # will not work
         next_epoch = np.argmax(np.array(config.epoch_acc)) + 1
-        assert (next_epoch == config.last_epoch + 1)
+        # assert (next_epoch == config.last_epoch + 1)
     print("starting from epoch %d" % next_epoch)
 
     config.epoch_acc = config.epoch_acc[:next_epoch]  # in case we overshot
     config.epoch_avg_subhead_acc = config.epoch_avg_subhead_acc[:next_epoch]
     config.epoch_stats = config.epoch_stats[:next_epoch]
+    config.epoch_train_acc = config.epoch_train_acc[:next_epoch]
+    config.epoch_test_acc_2 = config.epoch_test_acc_2[:next_epoch]
 
     if config.double_eval:
         config.double_eval_acc = config.double_eval_acc[:next_epoch]
@@ -279,8 +286,6 @@ else:
         config.double_eval_acc = []
         config.double_eval_avg_subhead_acc = []
         config.double_eval_stats = []
-        config.epoch_train_acc = []
-        config.epoch_test_acc_2 = []
 
     config.epoch_loss_head_A = []
     config.epoch_loss_no_lamb_head_A = []
