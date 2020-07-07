@@ -97,48 +97,81 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
                        torch.utils.data.sampler.SequentialSampler))
   dataloaders = [train_dataloader]
 
-  for d_i in xrange(config.num_dataloaders):
-    print 'Include increment: ' + str(config.frame_increment)
-    print 'd_i: ' + str(d_i)
-    if config.frame_increment:
-      curr_frame = curr_frame + config.interval
-    else:
-      if d_i == 0:
+  if config.cluster_all_frames:
+    assert (config.num_dataloaders == 10)
+    for frame_num in xrange(10):
+      print("Creating auxiliary dataloader ind %d out of %d time %s" %
+      (d_i, config.num_dataloaders, datetime.now()))
+      sys.stdout.flush()
+
+      train_tf_imgs_list = []
+      # for each base train dataset, create corresponding transformed dataset,
+      # then concat together.
+      for i in xrange(config.base_num):
+        train_imgs_tf_curr = dataset_class(root=config.dataset_root,
+                                           transform=tf2,
+	                                   frame=frame_num,
+                                           crop=config.crop_by_bb,
+                                           partition=partition)
+        train_tf_imgs_list.append(train_imgs_tf_curr)
+      train_imgs_tf = ConcatDataset(train_tf_imgs_list)
+      train_tf_dataloader = \
+        torch.utils.data.DataLoader(train_imgs_tf,
+                                    batch_size=config.dataloader_batch_sz,
+                                    shuffle=shuffle,
+                                    num_workers=0,
+                                    drop_last=False)
+
+      if not shuffle:
+        assert (isinstance(train_tf_dataloader.sampler,
+                           torch.utils.data.sampler.SequentialSampler))
+      # Verify the length for each dataloader is the same.
+      assert (len(train_dataloader) == len(train_tf_dataloader))
+      dataloaders.append(train_tf_dataloader)
+      
+  else:
+    for d_i in xrange(config.num_dataloaders):
+      print 'Include increment: ' + str(config.frame_increment)
+      print 'd_i: ' + str(d_i)
+      if config.frame_increment:
         curr_frame = curr_frame + config.interval
-    print("Creating auxiliary dataloader ind %d out of %d time %s" %
-          (d_i, config.num_dataloaders, datetime.now()))
-    sys.stdout.flush()
+      else:
+        if d_i == 0:
+          curr_frame = curr_frame + config.interval
+      print("Creating auxiliary dataloader ind %d out of %d time %s" %
+            (d_i, config.num_dataloaders, datetime.now()))
+      sys.stdout.flush()
 
-    train_tf_imgs_list = []
-    # for each base train dataset, create corresponding transformed dataset,
-    # then concat together.
-    for i in xrange(config.base_num):
-      this_base_frame = config.base_frame + config.base_interval * i
-      this_tf_frame = (curr_frame + config.base_interval * i) % 19
-      if this_tf_frame > 9:
-        this_tf_frame = this_base_frame - (this_tf_frame - 9)
-      train_imgs_tf_curr = dataset_class(root=config.dataset_root,
-                                         transform=tf2,
-	                                 frame=this_tf_frame,
-                                         crop=config.crop_by_bb,
-                                         partition=partition)
+      train_tf_imgs_list = []
+      # for each base train dataset, create corresponding transformed dataset,
+      # then concat together.
+      for i in xrange(config.base_num):
+        this_base_frame = config.base_frame + config.base_interval * i
+        this_tf_frame = (curr_frame + config.base_interval * i) % 19
+        if this_tf_frame > 9:
+          this_tf_frame = this_base_frame - (this_tf_frame - 9)
+        train_imgs_tf_curr = dataset_class(root=config.dataset_root,
+                                           transform=tf2,
+             	                           frame=this_tf_frame,
+                                           crop=config.crop_by_bb,
+                                           partition=partition)
 
-      train_tf_imgs_list.append(train_imgs_tf_curr)
+        train_tf_imgs_list.append(train_imgs_tf_curr)
 
-    train_imgs_tf = ConcatDataset(train_tf_imgs_list)
-    train_tf_dataloader = \
-      torch.utils.data.DataLoader(train_imgs_tf,
-                                  batch_size=config.dataloader_batch_sz,
-                                  shuffle=shuffle,
-                                  num_workers=0,
-                                  drop_last=False)
+      train_imgs_tf = ConcatDataset(train_tf_imgs_list)
+      train_tf_dataloader = \
+        torch.utils.data.DataLoader(train_imgs_tf,
+                                    batch_size=config.dataloader_batch_sz,
+                                    shuffle=shuffle,
+                                    num_workers=0,
+                                    drop_last=False)
 
-    if not shuffle:
-      assert (isinstance(train_tf_dataloader.sampler,
-                         torch.utils.data.sampler.SequentialSampler))
-    # Verify the length for each dataloader is the same.
-    assert (len(train_dataloader) == len(train_tf_dataloader))
-    dataloaders.append(train_tf_dataloader)
+      if not shuffle:
+        assert (isinstance(train_tf_dataloader.sampler,
+                           torch.utils.data.sampler.SequentialSampler))
+      # Verify the length for each dataloader is the same.
+      assert (len(train_dataloader) == len(train_tf_dataloader))
+      dataloaders.append(train_tf_dataloader)
 
   num_train_batches = len(dataloaders[0])
   print("Length of datasets vector %d" % len(dataloaders))
