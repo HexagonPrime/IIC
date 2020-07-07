@@ -101,7 +101,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
     assert (config.num_dataloaders == 10)
     for frame_num in xrange(10):
       print("Creating auxiliary dataloader ind %d out of %d time %s" %
-      (d_i, config.num_dataloaders, datetime.now()))
+      (frame_num, config.num_dataloaders, datetime.now()))
       sys.stdout.flush()
 
       train_tf_imgs_list = []
