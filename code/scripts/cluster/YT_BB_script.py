@@ -153,6 +153,9 @@ parser.add_argument("--center_crop_x", dest="center_crop_x", default=False,
 # Whether remove transformation g, including resize, flip and colour changing.
 parser.add_argument("--remove_g", dest="remove_g", default=False,
                     action="store_true")
+# Whether use all available frames for clustering, in this case, all 10 frames with 10 sample repeats.
+parser.add_argument("--cluster_all_frames", dest="cluster_all_frames", default=False,
+                    action="store_true")
 config = parser.parse_args()
 
 # Setup ------------------------------------------------------------------------
